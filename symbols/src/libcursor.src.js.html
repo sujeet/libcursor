@@ -1,0 +1,206 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * Represents a Cursor.
+<span class='line'>  3</span>  * @constructor
+<span class='line'>  4</span>  * 
+<span class='line'>  5</span>  * @param [DomElement]
+<span class='line'>  6</span>  * This must be either an element with contenteditable set to true,
+<span class='line'>  7</span>  * or a textarea or an input field.
+<span class='line'>  8</span>  * If unspecified, this would return a cursor at the current visible
+<span class='line'>  9</span>  * position of the cursor on the page.
+<span class='line'> 10</span>  *
+<span class='line'> 11</span>  * @param [position]
+<span class='line'> 12</span>  * This specifies the position of the cursor in the DomElement.
+<span class='line'> 13</span>  * When unspecified, while the DomElement is specified, the resultant
+<span class='line'> 14</span>  * cursor will be at the start of the editing area. In case of unspecified
+<span class='line'> 15</span>  * DomElement, the cursor at the current visible cursor position will be
+<span class='line'> 16</span>  * returned.
+<span class='line'> 17</span>  */</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Cursor</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">DomElement</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">position</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT">    
+<span class='line'> 20</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 21</span> 
+<span class='line'> 22</span> </span><span class="COMM">/**
+<span class='line'> 23</span>  * Same as insertBefore
+<span class='line'> 24</span>  * @see Cursor#insertBefore
+<span class='line'> 25</span>  * @method
+<span class='line'> 26</span>  */</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="NAME">Cursor.prototype.insert</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">text</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.insertBefore</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">text</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span> 
+<span class='line'> 31</span> 
+<span class='line'> 32</span> </span><span class="COMM">/**
+<span class='line'> 33</span>  * Inserts text at the position of the cursor, moves the cursor at the
+<span class='line'> 34</span>  * end of the inserted text.
+<span class='line'> 35</span>  * &lt;pre>
+<span class='line'> 36</span>  * Examples:
+<span class='line'> 37</span>  * 
+<span class='line'> 38</span>  *     +                                               +
+<span class='line'> 39</span>  * big | apple -> insertBefore ('rotten') -> big rotten| apple
+<span class='line'> 40</span>  *     +                                               +
+<span class='line'> 41</span>  * 
+<span class='line'> 42</span>  *      +-----+                                       +
+<span class='line'> 43</span>  * this |isn't| good -> insertBefore ('is') -> this is| good
+<span class='line'> 44</span>  *      +-----+                                       +
+<span class='line'> 45</span>  * &lt;/pre>
+<span class='line'> 46</span>  * @method
+<span class='line'> 47</span>  * 
+<span class='line'> 48</span>  * @param {string} text The text to be inserted.
+<span class='line'> 49</span>  */</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="NAME">Cursor.prototype.insertBefore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">text</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 51</span> 
+<span class='line'> 52</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> 
+<span class='line'> 54</span> </span><span class="COMM">/**
+<span class='line'> 55</span>  * Inserts text at the position of the cursor, keeps the cursor at the
+<span class='line'> 56</span>  * start of the inserted text. 
+<span class='line'> 57</span>  * &lt;pre>
+<span class='line'> 58</span>  * Examples:
+<span class='line'> 59</span>  * 
+<span class='line'> 60</span>  *     +                                         +
+<span class='line'> 61</span>  * big | apple -> insertBefore ('rotten') -> big |rotten apple
+<span class='line'> 62</span>  *     +                                         +
+<span class='line'> 63</span>  * 
+<span class='line'> 64</span>  *      +-----+                                     +
+<span class='line'> 65</span>  * this |isn't| good -> insertBefore ('is') -> this |is good
+<span class='line'> 66</span>  *      +-----+                                     +
+<span class='line'> 67</span>  * &lt;/pre>
+<span class='line'> 68</span>  * @method
+<span class='line'> 69</span>  * 
+<span class='line'> 70</span>  * @param {string} text The text to be inserted.
+<span class='line'> 71</span>  */</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="NAME">Cursor.prototype.insertAfter</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">text</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 73</span> 
+<span class='line'> 74</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 75</span> 
+<span class='line'> 76</span> </span><span class="COMM">/**
+<span class='line'> 77</span>  * Same as moveForward or moveBackward depending on the sign of offset.
+<span class='line'> 78</span>  * &lt;pre>
+<span class='line'> 79</span>  * move (9) is same as moveForward (9).
+<span class='line'> 80</span>  * move (-9) is same as moveBackward (9).
+<span class='line'> 81</span>  * &lt;/pre>
+<span class='line'> 82</span>  * @see Cursor#moveForward
+<span class='line'> 83</span>  * @see Cursor#moveBackward
+<span class='line'> 84</span>  * @method
+<span class='line'> 85</span>  * 
+<span class='line'> 86</span>  * @param {integer} offset The amount by which cursor should be moved.
+<span class='line'> 87</span>  */</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="NAME">Cursor.prototype.move</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">offset</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">offset</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.moveForward</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">offset</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">    </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.moveBackward</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NAME">offset</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span> 
+<span class='line'> 93</span> </span><span class="COMM">/**
+<span class='line'> 94</span>  * Moves the cursor forward by the amount specified.
+<span class='line'> 95</span>  * &lt;pre>
+<span class='line'> 96</span>  * Examples:
+<span class='line'> 97</span>  * 
+<span class='line'> 98</span>  *         +                                         +
+<span class='line'> 99</span>  * this is |awesome -> moveForward (3) -> this is awe|some
+<span class='line'>100</span>  *         +                                         +
+<span class='line'>101</span>  *
+<span class='line'>102</span>  *         +---+                                         +
+<span class='line'>103</span>  * this is |awe|some -> moveForward (3) -> this is awesom|e
+<span class='line'>104</span>  *         +---+                                         +
+<span class='line'>105</span>  * 
+<span class='line'>106</span>  * &lt;/pre>
+<span class='line'>107</span>  * @method
+<span class='line'>108</span>  * 
+<span class='line'>109</span>  * @param {positive integer} offset The amount by which the cursor should
+<span class='line'>110</span>  * move forward.
+<span class='line'>111</span>  */</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="NAME">Cursor.prototype.moveForward</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">offset</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">    
+<span class='line'>114</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span> 
+<span class='line'>116</span> </span><span class="COMM">/**
+<span class='line'>117</span>  * Moves the cursor backward by the amount specified.
+<span class='line'>118</span>  * &lt;pre>
+<span class='line'>119</span>  * Examples:
+<span class='line'>120</span>  * 
+<span class='line'>121</span>  *         +                                    +
+<span class='line'>122</span>  * this is |awesome -> moveBackward (3) -> this |is awesome
+<span class='line'>123</span>  *         +                                    +
+<span class='line'>124</span>  *
+<span class='line'>125</span>  *         +---+                                 +
+<span class='line'>126</span>  * this is |awe|some -> moveBackward (3) -> this |is awesome
+<span class='line'>127</span>  *         +---+                                 +
+<span class='line'>128</span>  * 
+<span class='line'>129</span>  * &lt;/pre>
+<span class='line'>130</span>  * @method
+<span class='line'>131</span>  * 
+<span class='line'>132</span>  * @param {positive integer} offset The amount by which the cursor should
+<span class='line'>133</span>  * move backward.
+<span class='line'>134</span>  */</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="NAME">Cursor.prototype.moveBackward</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">offset</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">    
+<span class='line'>137</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span> 
+<span class='line'>139</span> </span><span class="COMM">/**
+<span class='line'>140</span>  * Same as deleteForward or deleteBackward depending on the sign of amount.
+<span class='line'>141</span>  * &lt;pre>
+<span class='line'>142</span>  * delete (9) is same as deleteForward (9).
+<span class='line'>143</span>  * delete (-9) is same as deleteBackward (9).
+<span class='line'>144</span>  * &lt;/pre>
+<span class='line'>145</span>  * @see Cursor#deleteForward
+<span class='line'>146</span>  * @see Cursor#deleteBackward
+<span class='line'>147</span>  * @method
+<span class='line'>148</span>  * 
+<span class='line'>149</span>  * @param {integer} amount The number of characters to be deleted.
+<span class='line'>150</span>  */</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="NAME">Cursor.prototype.delete</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">amount</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">amount</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.deleteForward</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">amount</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">    </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.deleteBackward</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NAME">amount</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> 
+<span class='line'>156</span> </span><span class="COMM">/**
+<span class='line'>157</span>  * Deletes the specified number of characters ahead of the cursor.
+<span class='line'>158</span>  * &lt;pre>
+<span class='line'>159</span>  * Examples:
+<span class='line'>160</span>  * 
+<span class='line'>161</span>  *         +                                        +
+<span class='line'>162</span>  * this is |awesome -> deleteForward (3) -> this is |some
+<span class='line'>163</span>  *         +                                        +
+<span class='line'>164</span>  *
+<span class='line'>165</span>  *         +---+                                        +
+<span class='line'>166</span>  * this is |awe|some -> deleteForward (4) -> this is awe|
+<span class='line'>167</span>  *         +---+                                        +
+<span class='line'>168</span>  * 
+<span class='line'>169</span>  * &lt;/pre>
+<span class='line'>170</span>  * @method
+<span class='line'>171</span>  * 
+<span class='line'>172</span>  * @param {positive integer} amount The number of characters to be deleted.
+<span class='line'>173</span>  */</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="NAME">Cursor.prototype.deleteForward</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">amount</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">    
+<span class='line'>176</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>177</span> 
+<span class='line'>178</span> </span><span class="COMM">/**
+<span class='line'>179</span>  * Deletes the specified number of characters before the cursor.
+<span class='line'>180</span>  * &lt;pre>
+<span class='line'>181</span>  * Examples:
+<span class='line'>182</span>  * 
+<span class='line'>183</span>  *         +                                      +
+<span class='line'>184</span>  * this is |awesome -> deleteBackward (3) -> this |awesome
+<span class='line'>185</span>  *         +                                      +
+<span class='line'>186</span>  *
+<span class='line'>187</span>  *         +---+                                  +
+<span class='line'>188</span>  * this is |awe|some -> deleteBackward (4) -> this|awesome
+<span class='line'>189</span>  *         +---+                                  +
+<span class='line'>190</span>  * 
+<span class='line'>191</span>  * &lt;/pre>
+<span class='line'>192</span>  * @method
+<span class='line'>193</span>  * 
+<span class='line'>194</span>  * @param {positive integer} amount The number of characters to be deleted.
+<span class='line'>195</span>  */</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="NAME">Cursor.prototype.deleteBackward</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">amount</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">    
+<span class='line'>198</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span> </span></pre></body></html>
