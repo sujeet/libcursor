@@ -16,7 +16,14 @@
  * returned.
  */
 function Cursor (DomElement, position) {
-    
+    // The case when nothing is specified, just get the current position
+    // where cursor is in the document.
+    if (arguments.length == 0) {
+        // As of now, let us just handle text area.
+        if (document.activeElement.nodeName == "TEXTAREA") {
+            this.textarea = document.activeElement;
+        }
+    }
 }
 
 /**
@@ -48,7 +55,12 @@ Cursor.prototype.insert = function (text) {
  * @param {string} text The text to be inserted.
  */
 Cursor.prototype.insertBefore = function (text) {
-
+    this.textarea.setRangeText (text);
+    this.textarea.setSelectionRange (
+        this.textarea.selectionStart + text.length,
+        this.textarea.selectionStart + text.length
+    );
+    return this;
 };
 
 /**
@@ -57,20 +69,23 @@ Cursor.prototype.insertBefore = function (text) {
  * <pre>
  * Examples:
  * 
- *     +                                         +
- * big | apple -> insertBefore ('rotten') -> big |rotten apple
- *     +                                         +
+ *     +                                        +
+ * big | apple -> insertAfter ('rotten') -> big |rotten apple
+ *     +                                        +
  * 
- *      +-----+                                     +
- * this |isn't| good -> insertBefore ('is') -> this |is good
- *      +-----+                                     +
+ *      +-----+                                    +
+ * this |isn't| good -> insertAfter ('is') -> this |is good
+ *      +-----+                                    +
  * </pre>
  * @method
  * 
  * @param {string} text The text to be inserted.
  */
 Cursor.prototype.insertAfter = function (text) {
-
+    this.textarea.setRangeText (text);
+    this.textarea.setSelectionRange (this.textarea.selectionStart,
+                                     this.textarea.selectionStart);
+    return this;
 };
 
 /**
@@ -110,7 +125,9 @@ Cursor.prototype.move = function (offset) {
  * move forward.
  */
 Cursor.prototype.moveForward = function (offset) {
-    
+    this.textarea.setSelectionRange (this.textarea.selectionEnd + offset,
+                                     this.textarea.selectionEnd + offset);
+    return this;
 };
 
 /**
@@ -133,7 +150,9 @@ Cursor.prototype.moveForward = function (offset) {
  * move backward.
  */
 Cursor.prototype.moveBackward = function (offset) {
-    
+    this.textarea.setSelectionRange (this.textarea.selectionStart - offset,
+                                     this.textarea.selectionStart - offset);
+    return this;
 };
 
 /**
@@ -172,7 +191,10 @@ Cursor.prototype.delete = function (amount) {
  * @param {positive integer} amount The number of characters to be deleted.
  */
 Cursor.prototype.deleteForward = function (amount) {
-    
+    this.textarea.setSelectionRange (this.textarea.selectionEnd,
+                                     this.textarea.selectionEnd + amount);
+    this.textarea.setRangeText ("");
+    return this;
 };
 
 /**
@@ -194,5 +216,8 @@ Cursor.prototype.deleteForward = function (amount) {
  * @param {positive integer} amount The number of characters to be deleted.
  */
 Cursor.prototype.deleteBackward = function (amount) {
-    
+    this.textarea.setSelectionRange (this.textarea.selectionStart - amount,
+                                     this.textarea.selectionStart);
+    this.textarea.setRangeText ("");
+    return this;
 };
