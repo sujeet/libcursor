@@ -15,7 +15,7 @@ For API documentation, visit [github pages for libcursor]
  * Write "Hello world!" with cursor 
  * ending up just after the 'o' in 'Hello' 
  */
-cursor = new Cursor ();
+cursor = Cursor.new ();
 cursor.insert ("world!")
       .moveBackward (6)
       .insert ("Hello")
