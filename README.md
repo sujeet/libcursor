@@ -4,12 +4,16 @@ libcursor
 libcursor is a JavaScript library for manipulating cursor inside 
 textareas and contenteditable html elements.
 
-### API docs
+### Using libcursor
+##### Include the library:
+```HTML
+<script 
+   type='text/javascript' 
+   src='https://raw.github.com/sujeetgholap/libcursor/master/libcursor.js'>
+</script>
+```
 
-For API documentation, visit [github pages for libcursor]
-(http://sujeetgholap.github.io/libcursor/symbols/Cursor.html "API documentation").
-
-### Sample code
+##### Here is a sample piece of code:
 ```javascript
 /* *
  * Write "Hello world!" with cursor 
@@ -21,3 +25,5 @@ cursor.insert ("world!")
       .insert ("Hello")
       .insertAfter (" ");
 ```
+For API documentation, visit [github pages for libcursor]
+(http://sujeetgholap.github.io/libcursor/symbols/Cursor.html "API documentation").
