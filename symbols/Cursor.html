@@ -232,7 +232,7 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/Cursor.html#constructor">Cursor</a></b>(DomElement, position)
+								<b><a href="../symbols/Cursor.html#constructor">Cursor</a></b>()
 							</div>
 							<div class="description">Represents a Cursor.</div>
 						</td>
@@ -282,6 +282,15 @@ ul.inheritsList
 								<div class="fixedFont"><b><a href="../symbols/Cursor.html#deleteForward">deleteForward</a></b>(amount)
 								</div>
 								<div class="description">Deletes the specified number of characters ahead of the cursor.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Cursor.html#getText">getText</a></b>(start, end)
+								</div>
+								<div class="description">Get the text surrounding the cursor.</div>
 							</td>
 						</tr>
 					
@@ -341,6 +350,15 @@ end of the inserted text.</div>
 							</td>
 						</tr>
 					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Cursor.<b><a href="../symbols/Cursor.html#.new">new</a></b>(DomElement, position)
+								</div>
+								<div class="description">Static method to initialize and return an appropriate kind of cursor.</div>
+							</td>
+						</tr>
+					
 					</tbody>
 				</table>
 				
@@ -358,7 +376,7 @@ end of the inserted text.</div>
 				</div>
 				
 				<div class="fixedFont">
-						<b>Cursor</b>(DomElement, position)
+						<b>Cursor</b>()
 				</div>
 				
 				<div class="description">
@@ -370,35 +388,18 @@ end of the inserted text.</div>
 				
 				
 					
+					
+					
+					
+					
+					
+					
 						<dl class="detailList">
-						<dt class="heading">Parameters:</dt>
+						<dt class="heading">See:</dt>
 						
-							<dt>
-								 <b>DomElement</b>
-								<i>Optional</i>
-							</dt>
-								<dd>This must be either an element with contenteditable set to true,
-or a textarea or an input field.
-If unspecified, this would return a cursor at the current visible
-position of the cursor on the page.</dd>
-						
-							<dt>
-								 <b>position</b>
-								<i>Optional</i>
-							</dt>
-								<dd>This specifies the position of the cursor in the DomElement.
-When unspecified, while the DomElement is specified, the resultant
-cursor will be at the start of the editing area. In case of unspecified
-DomElement, the cursor at the current visible cursor position will be
-returned.</dd>
+							<dd><a href="../symbols/Cursor.html#.new">Cursor.new</a></dd>
 						
 						</dl>
-					
-					
-					
-					
-					
-					
 					
 
 			</div>
@@ -552,6 +553,74 @@ this is |awe|some -> deleteForward (4) -> this is awe|
 						
 						
 						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getText"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{string}</span>
+					<b>getText</b>(start, end)
+					
+					</div>
+					<div class="description">
+						Get the text surrounding the cursor.
+<pre>
+Examples:
+
+        +      
+this is |awesome
+        +     
+-> getText (-3, 3) "is awe"
+-> getText (-4, 0) " is "
+-> getText (2, 4)  "es"
+
+        +---+
+this is |awe|some
+        +---+
+-> getText (-3, 3) "is awesom"
+-> getText (-4, 0) " is awe"
+-> getText (2, 4)  "esome"
+
+</pre>
+<b>Note:</b> The cursor itself does not move.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{itive integer}</span> <b>start</b>
+									
+								</dt>
+								<dd>Start of the cursor moves this much forward.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{itive integer}</span> <b>end</b>
+									
+								</dt>
+								<dd>End of the cursor moves this much forward.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{string}</span> The text enclosed between the start and end of the cursor after the (imaginary) moving is done.</dd>
+							
+							</dl>
 						
 						
 						
@@ -842,6 +911,75 @@ move forward.</dd>
 						
 						
 
+					<hr />
+				
+					<a name=".new"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Cursor.</span><b>new</b>(DomElement, position)
+					
+					</div>
+					<div class="description">
+						Static method to initialize and return an appropriate kind of cursor.
+<pre>
+1) No arguments : Current cursor under currently focused element will be returned.
+
+2) Only DomElement specified : Cursor at the end of the text will be returned.
++-----------------------+
+|                +      |
+| text content...|      |
+|                +      |
++-----------------------+
+
+3) DomElement and position both specified:
+Cursor.new (document.getElementById('mydiv'), 5) will return following:
+#mydiv
++-----------------+
+|     +           |
+|12345|6789..     |
+|     +           |
++-----------------+
+</pre>
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>DomElement</b>
+									<i>Optional</i>
+								</dt>
+								<dd>This must be either an element with contenteditable set to true,
+or a textarea.</dd>
+							
+								<dt>
+									<b>position</b>
+									<i>Optional</i>
+								</dt>
+								<dd>This specifies the position of the cursor in the DomElement.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>An appropriately initialized Cursor object.</dd>
+							
+							</dl>
+						
+						
+						
+
 					
 				
 			
@@ -856,7 +994,7 @@ move forward.</dd>
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Jul 31 2013 23:05:51 GMT+1000 (EST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Aug 01 2013 18:11:42 GMT+1000 (EST)
 		</div>
 	</body>
 </html>
