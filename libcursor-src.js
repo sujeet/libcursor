@@ -116,7 +116,7 @@ function ContentEditableCursor (DomElement, position) {
         this.selection = document.getSelection ();
         this.selection.extend (
             DomElement,
-            DomElement.children.length_+ countTextNodes (DomElement)
+            DomElement.children.length + countTextNodes (DomElement)
         );
         this.selection.collapseToEnd ();
     }
