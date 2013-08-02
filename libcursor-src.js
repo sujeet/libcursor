@@ -7,6 +7,22 @@
  */
 function Cursor () {}
 
+// Utility function to get length of unicode strings takeing care of
+// surrogate pairs.
+// "𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡".length is 20 we want it to be 10
+// unicodeLength ("𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡") returns 10
+function unicodeLength (str) {
+    var count = 0;
+    for (var i=0; i < str.length; i++) {
+        if ((str.charCodeAt(i) & 0xF800) == 0xD800)
+            // Increase the count here because this is the start of of a
+            // surrogate pair.
+            i++;
+        count++;
+    }
+    return count;
+}
+
 /**
  * Static method to initialize and return an appropriate kind of cursor.
  * <pre>
@@ -89,8 +105,8 @@ function TextAreaCursor (Textarea, position) {
     }
     else if (arguments.length == 1) {
         this.textarea = Textarea;
-        this.textarea.setSelectionRange (this.textarea.value.length,
-                                         this.textarea.value.length);
+        this.textarea.setSelectionRange (unicodeLength (this.textarea.value),
+                                         unicodeLength (this.textarea.value));
     }
     else if (arguments.length == 2) {
         this.textarea = Textarea;
@@ -168,15 +184,15 @@ Cursor.prototype.insertBefore = function (text) {
 TextAreaCursor.prototype.insertBefore = function (text) {
     this.textarea.setRangeText (text);
     this.textarea.setSelectionRange (
-        this.textarea.selectionStart + text.length,
-        this.textarea.selectionStart + text.length
+        this.textarea.selectionStart + unicodeLength (text),
+        this.textarea.selectionStart + unicodeLength (text)
     );
     return this;
 };
 
 ContentEditableCursor.prototype.insertBefore = function (text) {
     this.insertAfter (text);
-    this.move (text.length);
+    this.move (unicodeLength (text));
     return this;
 };
 
