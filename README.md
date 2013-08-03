@@ -9,7 +9,7 @@ textareas and contenteditable html elements.
 ```HTML
 <script 
    type='text/javascript' 
-   src='https://raw.github.com/sujeetgholap/libcursor/master/libcursor.js'>
+   src='//sujeetgholap.github.io/libcursor/libcursor.js'>
 </script>
 ```
 
