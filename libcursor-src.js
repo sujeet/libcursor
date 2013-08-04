@@ -23,6 +23,21 @@ function unicodeLength (str) {
     return count;
 }
 
+// Shim for Firefox and friends.
+if (!HTMLTextAreaElement.prototype.setRangeText) {
+    HTMLTextAreaElement.prototype.setRangeText = function (text) {
+        var old_start = this.selectionStart;
+        this.value = (
+            this.value.substring (0, this.selectionStart) 
+                + text
+                + this.value.substring (this.selectionEnd,
+                                        this.value.length)
+        );
+        this.setSelectionRange (old_start,
+                                old_start + text.length);
+    };
+}
+
 /**
  * Static method to initialize and return an appropriate kind of cursor.
  * <pre>
@@ -105,8 +120,8 @@ function TextAreaCursor (Textarea, position) {
     }
     else if (arguments.length == 1) {
         this.textarea = Textarea;
-        this.textarea.setSelectionRange (unicodeLength (this.textarea.value),
-                                         unicodeLength (this.textarea.value));
+        this.textarea.setSelectionRange (this.textarea.value.length,
+                                         this.textarea.value.length);
     }
     else if (arguments.length == 2) {
         this.textarea = Textarea;
@@ -184,8 +199,8 @@ Cursor.prototype.insertBefore = function (text) {
 TextAreaCursor.prototype.insertBefore = function (text) {
     this.textarea.setRangeText (text);
     this.textarea.setSelectionRange (
-        this.textarea.selectionStart + unicodeLength (text),
-        this.textarea.selectionStart + unicodeLength (text)
+        this.textarea.selectionStart + text.length,
+        this.textarea.selectionStart + text.length
     );
     return this;
 };
