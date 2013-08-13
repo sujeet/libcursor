@@ -6,13 +6,16 @@ return count;}
 if(!HTMLTextAreaElement.prototype.setRangeText){HTMLTextAreaElement.prototype.setRangeText=function(text){var old_start=this.selectionStart;this.value=(this.value.substring(0,this.selectionStart)
 +text
 +this.value.substring(this.selectionEnd,this.value.length));this.setSelectionRange(old_start,old_start+text.length);};}
-Cursor.new=function(DomElement,position){if(arguments.length==0){if(document.activeElement.nodeName=="TEXTAREA"){return new TextAreaCursor();}
+if(!HTMLInputElement.prototype.setRangeText){HTMLInputElement.prototype.setRangeText=function(text){var old_start=this.selectionStart;this.value=(this.value.substring(0,this.selectionStart)
++text
++this.value.substring(this.selectionEnd,this.value.length));this.setSelectionRange(old_start,old_start+text.length);};}
+Cursor.new=function(DomElement,position){if(arguments.length==0){if((document.activeElement.nodeName=="TEXTAREA")||((document.activeElement.nodeName=="INPUT")&&(document.activeElement.getAttribute("type")=="text"))){return new TextAreaCursor();}
 else if(document.activeElement.isContentEditable){return new ContentEditableCursor();}
 else{}}
-else if(arguments.length==1){if(DomElement.nodeName=="TEXTAREA"){return new TextAreaCursor(DomElement);}
+else if(arguments.length==1){if((DomElement.nodeName=="TEXTAREA")||((DomElement.nodeName=="INPUT")&&(DomElement.getAttribute("type")=="text"))){return new TextAreaCursor(DomElement);}
 else if(DomElement.isContentEditable){return new ContentEditableCursor(DomElement);}
 else{}}
-else if(arguments.length==2){if(DomElement.nodeName=="TEXTAREA"){return new TextAreaCursor(DomElement,position);}
+else if(arguments.length==2){if((DomElement.nodeName=="TEXTAREA")||((DomElement.nodeName=="INPUT")&&(DomElement.getAttribute("type")=="text"))){return new TextAreaCursor(DomElement,position);}
 else if(document.activeElement.isContentEditable){return new ContentEditableCursor(DomElement,position);}
 else{}}
 return null;};function TextAreaCursor(Textarea,position){if(arguments.length==0){this.textarea=document.activeElement;}
