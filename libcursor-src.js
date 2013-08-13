@@ -38,6 +38,20 @@ if (!HTMLTextAreaElement.prototype.setRangeText) {
     };
 }
 
+if (!HTMLInputElement.prototype.setRangeText) {
+    HTMLInputElement.prototype.setRangeText = function (text) {
+        var old_start = this.selectionStart;
+        this.value = (
+            this.value.substring (0, this.selectionStart) 
+                + text
+                + this.value.substring (this.selectionEnd,
+                                        this.value.length)
+        );
+        this.setSelectionRange (old_start,
+                                old_start + text.length);
+    };
+}
+
 /**
  * Static method to initialize and return an appropriate kind of cursor.
  * <pre>
@@ -75,7 +89,9 @@ Cursor.new = function (DomElement, position) {
     // where cursor is in the document.
     if (arguments.length == 0) {
         // As of now, let us just handle text area.
-        if (document.activeElement.nodeName == "TEXTAREA") {
+        if ((document.activeElement.nodeName == "TEXTAREA") ||
+            ((document.activeElement.nodeName == "INPUT") && 
+             (document.activeElement.getAttribute ("type") == "text"))) {
             return new TextAreaCursor ();
         }
         else if (document.activeElement.isContentEditable) {
@@ -87,7 +103,9 @@ Cursor.new = function (DomElement, position) {
     }
     
     else if (arguments.length == 1) {
-        if (DomElement.nodeName == "TEXTAREA") {
+        if ((DomElement.nodeName == "TEXTAREA") ||
+            ((DomElement.nodeName == "INPUT") && 
+             (DomElement.getAttribute ("type") == "text"))) {
             return new TextAreaCursor (DomElement);
         }
         else if (DomElement.isContentEditable) {
@@ -99,7 +117,9 @@ Cursor.new = function (DomElement, position) {
     }
     
     else if (arguments.length == 2) {
-        if (DomElement.nodeName == "TEXTAREA") {
+        if ((DomElement.nodeName == "TEXTAREA") ||
+            ((DomElement.nodeName == "INPUT") && 
+             (DomElement.getAttribute ("type") == "text"))) {
             return new TextAreaCursor (DomElement, position);
         }
         else if (document.activeElement.isContentEditable) {
