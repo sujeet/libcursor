@@ -471,8 +471,8 @@ ContentEditableCursor.prototype.deleteBackward = function (amount) {
  * <b>Note:</b> The cursor itself does not move.
  * @method
  * 
- * @param {itive integer} start Start of the cursor moves this much forward.
- * @param {itive integer} end End of the cursor moves this much forward.
+ * @param {integer} start Start of the cursor moves this much forward.
+ * @param {integer} end End of the cursor moves this much forward.
  * @return {string} The text enclosed between the start and end of the cursor after the (imaginary) moving is done.
  */
 Cursor.prototype.getText = function (start, end) {};
@@ -490,3 +490,65 @@ ContentEditableCursor.prototype.getText = function (start, end) {
         range.endOffset + end
     );
 };
+
+/**
+ * Get the text just before the cursor.
+ * <pre>
+ * Examples:
+ * 
+ *         +      
+ * this is |awesome
+ *         +     
+ * -> getTextBefore (4) " is "
+ * 
+ *         +---+
+ * this is |awe|some
+ *         +---+
+ * -> getText (5) "s is "
+ * 
+ * </pre>
+ * <b>Note:</b> The cursor itself does not move.
+ * @method
+ * 
+ * @param {integer} len Length of the string wanted.
+ * @return {string} The string just before the cursor, AT MAXIMUM of length len.
+ */
+Cursor.prototype.getTextBefore = function (len) {
+    var bigstr = this.getText (-len, 0);
+    var smallstr = this.getText (0, 0);
+    return bigstr.substring (0, bigstr.length - smallstr.length);
+};
+
+TextAreaCursor.prototype.getTextBefore = Cursor.prototype.getTextBefore;
+ContentEditableCursor.prototype.getTextBefore = Cursor.prototype.getTextBefore;
+
+/**
+ * Get the text just after the cursor.
+ * <pre>
+ * Examples:
+ * 
+ *         +      
+ * this is |awesome
+ *         +     
+ * -> getTextBefore (3) "awe"
+ * 
+ *         +---+
+ * this is |awe|some
+ *         +---+
+ * -> getText (4) "some"
+ * 
+ * </pre>
+ * <b>Note:</b> The cursor itself does not move.
+ * @method
+ * 
+ * @param {integer} len Length of the string wanted.
+ * @return {string} The string just after the cursor, AT MAXIMUM of length len.
+ */
+Cursor.prototype.getTextAfter = function (len) {
+    var bigstr = this.getText (0, len);
+    var smallstr = this.getText (0, 0);
+    return bigstr.substring (smallstr.length, bigstr.length);
+};
+
+TextAreaCursor.prototype.getTextAfter = Cursor.prototype.getTextAfter;
+ContentEditableCursor.prototype.getTextAfter = Cursor.prototype.getTextAfter;
