@@ -38,19 +38,6 @@ if (!HTMLTextAreaElement.prototype.setRangeText) {
     };
 }
 
-if (!HTMLInputElement.prototype.setRangeText) {
-    HTMLInputElement.prototype.setRangeText = function (text) {
-        var old_start = this.selectionStart;
-        this.value = (
-            this.value.substring (0, this.selectionStart) 
-                + text
-                + this.value.substring (this.selectionEnd,
-                                        this.value.length)
-        );
-        this.setSelectionRange (old_start,
-                                old_start + text.length);
-    };
-}
 
 /**
  * Static method to initialize and return an appropriate kind of cursor.
