@@ -9,7 +9,7 @@ textareas and contenteditable html elements.
 ```HTML
 <script 
    type='text/javascript' 
-   src='//sujeetgholap.github.io/libcursor/libcursor.js'>
+   src='//sujeet.github.io/libcursor/libcursor.js'>
 </script>
 ```
 
@@ -26,4 +26,4 @@ cursor.insert ("world!")
       .insertAfter (" ");
 ```
 For API documentation, visit [github pages for libcursor]
-(http://sujeetgholap.github.io/libcursor/symbols/Cursor.html "API documentation").
+(http://sujeet.github.io/libcursor/symbols/Cursor.html "API documentation").
