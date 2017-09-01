@@ -65,7 +65,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line6">line 6</a>
+        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -174,7 +174,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line88">line 88</a>
+        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line87">line 87</a>
     </li></ul></dd>
     
 
@@ -381,7 +381,7 @@ or a textarea.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line409">line 409</a>
+        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line288">line 288</a>
     </li></ul></dd>
     
 
@@ -444,12 +444,12 @@ or a textarea.</td>
     <h5>Example</h5>
     
     <pre class="prettyprint"><code>// These two are same:
-delete(9)
-deleteForward(9)
+cursor.delete(9)
+cursor.deleteForward(9)
 
 // These two are same:
-delete(-9)
-deleteBackward(9)</code></pre>
+cursor.delete(-9)
+cursor.deleteBackward(9)</code></pre>
 
 
 
@@ -534,7 +534,7 @@ deleteBackward(9)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line481">line 481</a>
+        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line339">line 339</a>
     </li></ul></dd>
     
 
@@ -590,7 +590,7 @@ deleteBackward(9)</code></pre>
     <pre class="prettyprint"><code>//         +
 // this is |awesome
 //         +
-deleteBackward(3)
+cursor.deleteBackward(3)
 //         +                                      +
 // this is |awesome -> deleteBackward (3) -> this |awesome
 //         +                                      +
@@ -598,7 +598,7 @@ deleteBackward(3)
 //         +---+
 // this is |awe|some
 //         +---+
-deleteBackward(4)
+cursor.deleteBackward(4)
 //     +
 // this|awesome
 //     +</code></pre>
@@ -686,7 +686,7 @@ deleteBackward(4)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line440">line 440</a>
+        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line315">line 315</a>
     </li></ul></dd>
     
 
@@ -742,7 +742,7 @@ deleteBackward(4)
     <pre class="prettyprint"><code>//         +
 // this is |awesome
 //         +
-deleteForward(3)
+cursor.deleteForward(3)
 //         +
 // this is |some
 //         +
@@ -750,7 +750,7 @@ deleteForward(3)
 //         +---+
 // this is |awe|some
 //         +---+
-deleteForward(4)
+cursor.deleteForward(4)
 //            +
 // this is awe|
 //            +</code></pre>
@@ -838,7 +838,7 @@ deleteForward(4)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line524">line 524</a>
+        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line366">line 366</a>
     </li></ul></dd>
     
 
@@ -895,16 +895,16 @@ deleteForward(4)
     <pre class="prettyprint"><code>//         +      
 // this is |awesome
 //         +     
-getText(-3, 3) === "is awe"
-getText(-4, 0) === " is "
-getText(2, 4) === "es"
+cursor.getText(-3, 3) === "is awe"
+cursor.getText(-4, 0) === " is "
+cursor.getText(2, 4) === "es"
 
 //         +---+
 // this is |awe|some
 //         +---+
-getText(-3, 3) === "is awesom"
-getText(-4, 0) === " is awe"
-getText(2, 4) === "esome"</code></pre>
+cursor.getText(-3, 3) === "is awesom"
+cursor.getText(-4, 0) === " is awe"
+cursor.getText(2, 4) === "esome"</code></pre>
 
 
 
@@ -997,7 +997,8 @@ getText(2, 4) === "esome"</code></pre>
 
         
 <div class="param-desc">
-    The text enclosed between the start and end of the cursor after the (imaginary) moving is done.
+    The text enclosed between the start and end of
+                 the cursor after the (imaginary) moving is done.
 </div>
 
 
@@ -1034,7 +1035,7 @@ getText(2, 4) === "esome"</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line587">line 587</a>
+        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line412">line 412</a>
     </li></ul></dd>
     
 
@@ -1091,12 +1092,12 @@ getText(2, 4) === "esome"</code></pre>
     <pre class="prettyprint"><code>//         +      
 // this is |awesome
 //         +     
-getTextBefore(3) === "awe"
+cursor.getTextBefore(3) === "awe"
 
 //         +---+
 // this is |awe|some
 //         +---+
-getText(4) === "some"</code></pre>
+cursor.getText(4) === "some"</code></pre>
 
 
 
@@ -1166,7 +1167,8 @@ getText(4) === "some"</code></pre>
 
         
 <div class="param-desc">
-    The string just after the cursor, AT MAXIMUM of length len.
+    The string just after the cursor,
+                 AT MAXIMUM of length len.
 </div>
 
 
@@ -1203,7 +1205,7 @@ getText(4) === "some"</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line559">line 559</a>
+        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line387">line 387</a>
     </li></ul></dd>
     
 
@@ -1260,12 +1262,12 @@ getText(4) === "some"</code></pre>
     <pre class="prettyprint"><code>//         +      
 // this is |awesome
 //         +     
-getTextBefore(4) === " is "
+cursor.getTextBefore(4) === " is "
 
 //         +---+
 // this is |awe|some
 //         +---+
-getText(5) === "s is "</code></pre>
+cursor.getText(5) === "s is "</code></pre>
 
 
 
@@ -1335,7 +1337,8 @@ getText(5) === "s is "</code></pre>
 
         
 <div class="param-desc">
-    The string just before the cursor, AT MAXIMUM of length len.
+    The string just before the cursor,
+                 AT MAXIMUM of length len.
 </div>
 
 
@@ -1372,7 +1375,7 @@ getText(5) === "s is "</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line193">line 193</a>
+        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line141">line 141</a>
     </li></ul></dd>
     
 
@@ -1463,7 +1466,7 @@ getText(5) === "s is "</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line268">line 268</a>
+        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line197">line 197</a>
     </li></ul></dd>
     
 
@@ -1520,7 +1523,7 @@ start of the inserted text.
     <pre class="prettyprint"><code>//     +
 // big | apple
 //     +
-insertAfter('rotten')
+cursor.insertAfter('rotten')
 //     +
 // big |rotten apple
 //     +
@@ -1528,7 +1531,7 @@ insertAfter('rotten')
 //      +-----+
 // this |isn't| good
 //      +-----+
-insertAfter('is')
+cursor.insertAfter('is')
 //      +  
 // this |is good
 //      +  </code></pre>
@@ -1616,7 +1619,7 @@ insertAfter('is')
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line225">line 225</a>
+        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line169">line 169</a>
     </li></ul></dd>
     
 
@@ -1673,7 +1676,7 @@ end of the inserted text.
     <pre class="prettyprint"><code>//     +
 // big | apple
 //     +
-insertBefore('rotten')
+cursor.insertBefore('rotten')
 //           +
 // big rotten| apple
 //           +
@@ -1681,7 +1684,7 @@ insertBefore('rotten')
 //      +-----+
 // this |isn't| good
 //      +-----+
-insertBefore('is')
+cursor.insertBefore('is')
 //        +
 // this is| good
 //        +</code></pre>
@@ -1769,7 +1772,7 @@ insertBefore('is')
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line303">line 303</a>
+        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line216">line 216</a>
     </li></ul></dd>
     
 
@@ -1832,12 +1835,12 @@ insertBefore('is')
     <h5>Example</h5>
     
     <pre class="prettyprint"><code>// These two are same:
-move(9)
-moveForward(9)
+cursor.move(9)
+cursor.moveForward(9)
 
 // These two are same:
-move(-9)
-moveBackward(9)</code></pre>
+cursor.move(-9)
+cursor.moveBackward(9)</code></pre>
 
 
 
@@ -1922,7 +1925,7 @@ moveBackward(9)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line375">line 375</a>
+        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line269">line 269</a>
     </li></ul></dd>
     
 
@@ -1978,7 +1981,7 @@ moveBackward(9)</code></pre>
     <pre class="prettyprint"><code>//         +
 // this is |awesome
 //         +
-moveBackward(3)
+cursor.moveBackward(3)
 //      +
 // this |is awesome
 //      +
@@ -1986,7 +1989,7 @@ moveBackward(3)
 //         +---+
 // this is |awe|some
 //         +---+
-moveBackward(3)
+cursor.moveBackward(3)
 //      +
 // this |is awesome
 //      +</code></pre>
@@ -2075,7 +2078,7 @@ move backward.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line335">line 335</a>
+        <a href="libcursor-src.js.html">libcursor-src.js</a>, <a href="libcursor-src.js.html#line244">line 244</a>
     </li></ul></dd>
     
 
@@ -2131,7 +2134,7 @@ move backward.</td>
     <pre class="prettyprint"><code>//         +
 // this is |awesome
 //         +
-moveForward(3)
+cursor.moveForward(3)
 //            +
 // this is awe|some
 //            +
@@ -2139,7 +2142,7 @@ moveForward(3)
 //         +---+
 // this is |awe|some
 //         +---+
-moveForward(3)
+cursor.moveForward(3)
 //               +
 // this is awesom|e
 //               +</code></pre>
@@ -2229,7 +2232,7 @@ move forward.</td>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Fri Sep 01 2017 12:08:01 GMT+0530 (IST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Fri Sep 01 2017 12:53:02 GMT+0530 (IST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
