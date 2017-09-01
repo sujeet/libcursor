@@ -22,7 +22,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Cursor.html">Cursor</a><ul class='methods'><li data-type='method'><a href="Cursor.html#.new">new</a></li><li data-type='method'><a href="Cursor.html#delete">delete</a></li><li data-type='method'><a href="Cursor.html#deleteBackward">deleteBackward</a></li><li data-type='method'><a href="Cursor.html#deleteForward">deleteForward</a></li><li data-type='method'><a href="Cursor.html#getText">getText</a></li><li data-type='method'><a href="Cursor.html#getTextAfter">getTextAfter</a></li><li data-type='method'><a href="Cursor.html#getTextBefore">getTextBefore</a></li><li data-type='method'><a href="Cursor.html#insert">insert</a></li><li data-type='method'><a href="Cursor.html#insertAfter">insertAfter</a></li><li data-type='method'><a href="Cursor.html#insertBefore">insertBefore</a></li><li data-type='method'><a href="Cursor.html#move">move</a></li><li data-type='method'><a href="Cursor.html#moveBackward">moveBackward</a></li><li data-type='method'><a href="Cursor.html#moveForward">moveForward</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Cursor.html">Cursor</a><ul class='methods'><li data-type='method'><a href="Cursor.html#.atTheEndOf">atTheEndOf</a></li><li data-type='method'><a href="Cursor.html#.current">current</a></li><li data-type='method'><a href="Cursor.html#.inside">inside</a></li><li data-type='method'><a href="Cursor.html#delete">delete</a></li><li data-type='method'><a href="Cursor.html#deleteBackward">deleteBackward</a></li><li data-type='method'><a href="Cursor.html#deleteForward">deleteForward</a></li><li data-type='method'><a href="Cursor.html#getText">getText</a></li><li data-type='method'><a href="Cursor.html#getTextAfter">getTextAfter</a></li><li data-type='method'><a href="Cursor.html#getTextBefore">getTextBefore</a></li><li data-type='method'><a href="Cursor.html#insert">insert</a></li><li data-type='method'><a href="Cursor.html#insertAfter">insertAfter</a></li><li data-type='method'><a href="Cursor.html#insertBefore">insertBefore</a></li><li data-type='method'><a href="Cursor.html#move">move</a></li><li data-type='method'><a href="Cursor.html#moveBackward">moveBackward</a></li><li data-type='method'><a href="Cursor.html#moveForward">moveForward</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -41,80 +41,82 @@
 // surrogate pairs.
 // "𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡".length is 20 we want it to be 10
 // unicodeLength ("𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡") returns 10
-function unicodeLength (str) {
-    var count = 0;
-    for (var i=0; i &lt; str.length; i++) {
-        if ((str.charCodeAt(i) &amp; 0xF800) == 0xD800)
-            // Increase the count here because this is the start of of a
-            // surrogate pair.
-            i++;
-        count++;
-    }
-    return count;
+function unicodeLength(str) {
+  var count = 0;
+  for (var i=0; i &lt; str.length; i++) {
+    if ((str.charCodeAt(i) &amp; 0xF800) == 0xD800)
+      // Increase the count here because this is the start of of a
+      // surrogate pair.
+      i++;
+    count++;
+  }
+  return count;
+}
+
+function setRangeText(elem, text) {
+  var old_start = elem.selectionStart;
+  var old_str = elem.value;
+  elem.value =
+    old_str.substring(0, elem.selectionStart)
+    + text
+    + old_str.substring(elem.selectionEnd, old_str.length);
+  elem.setSelectionRange(old_start, old_start + text.length);
 }
 
 // Shim for Firefox and friends.
 if (!HTMLTextAreaElement.prototype.setRangeText) {
-    HTMLTextAreaElement.prototype.setRangeText = function (text) {
-        var old_start = this.selectionStart;
-        this.value = (
-            this.value.substring (0, this.selectionStart) 
-                + text
-                + this.value.substring (this.selectionEnd,
-                                        this.value.length)
-        );
-        this.setSelectionRange (old_start,
-                                old_start + text.length);
-    };
+  HTMLTextAreaElement.prototype.setRangeText = function(text) {
+    setRangeText(this, text);
+  };
 }
 
 if (!HTMLInputElement.prototype.setRangeText) {
-    HTMLInputElement.prototype.setRangeText = function (text) {
-        var old_start = this.selectionStart;
-        this.value = (
-            this.value.substring (0, this.selectionStart) 
-                + text
-                + this.value.substring (this.selectionEnd,
-                                        this.value.length)
-        );
-        this.setSelectionRange (old_start,
-                                old_start + text.length);
-    };
+  HTMLInputElement.prototype.setRangeText = function(text) {
+    setRangeText(this, text);
+  };
 }
 
-/**
- * @see Cursor.new
- */
 class Cursor {
   /**
-   * &lt;i> Don't use this constructor. &lt;/i> Use Cursor.new instead.
+   * &lt;i>Don't use this constructor.&lt;/i>
+   * Use one of {@link Cursor.current}, {@link Cursor.atTheEndOf},
+   * {@link Cursor.inside} instead.
    */
   constructor() {}
+
   /**
-   * Static method to initialize and return an appropriate kind of cursor.
-   *
-   * @param [DomElement]
+   * @param domElement {HTMLElement}
    * This must be either an element with contenteditable set to true,
    * or a textarea.
    *
-   * @param [position {integer}]
-   * This specifies the position of the cursor in the DomElement.
-   * 
-   * @return An appropriately initialized Cursor object.
+   * @return {Cursor} A cursor at the end of domElement.
    *
    * @example
-   * Cursor.new()  // Returns current cursor under currently focused element.
-   *
-   * // Only DomElement specified: returns cursor at the end of the text.
-   * Cursor.new(document.getElementById('mydiv'))
+   * Cursor.atTheEndOf(document.getElementById('mydiv'))
    * // #mydiv
    * // +-----------------+
    * // |           +     |
    * // |123456789..|     |
    * // |           +     |
    * // +-----------------+
+   */
+  static atTheEndOf(domElement) {
+    return Cursor
+      .getConcreteSubclassFor(domElement)
+      .atTheEndOf(domElement);
+  }
+
+  /**
+   * @param domElement {HTMLElement}
+   * This must be either an element with contenteditable set to true,
+   * or a textarea.
    *
-   * // With position specified:
+   * @param position {integer}
+   * This specifies the position of the cursor in the domElement.
+   *
+   * @return {Cursor} A cursor inside the domElement at the specified offset.
+   *
+   * @example
    * Cursor.new(document.getElementById('mydiv'), 5)
    * // #mydiv
    * // +-----------------+
@@ -123,54 +125,34 @@ class Cursor {
    * // |     +           |
    * // +-----------------+
    */
-  static new(DomElement, position) {
-    // The case when nothing is specified, just get the current position
-    // where cursor is in the document.
-    if (arguments.length == 0) {
-      // As of now, let us just handle text area.
-      if ((document.activeElement.nodeName == "TEXTAREA") ||
-          ((document.activeElement.nodeName == "INPUT") &amp;&amp; 
-           (document.activeElement.getAttribute ("type") == "text"))) {
-        return new TextAreaCursor ();
-      }
-      else if (document.activeElement.isContentEditable) {
-        return new ContentEditableCursor ();
-      }
-      else {
-        // TODO: Raise an error.
-      }
+  static inside(domElement, offset) {
+    return Cursor
+      .getConcreteSubclassFor(domElement)
+      .inside(domElement, offset);
+  }
+
+  /**
+   * @return {Cursor} Current cursor under currently focused element.
+   */
+  static current() {
+    var domElement = document.activeElement;
+    return Cursor
+      .getConcreteSubclassFor(domElement)
+      .current();
+  }
+
+  static getConcreteSubclassFor(domElement) {
+    if ((domElement.nodeName == "TEXTAREA") ||
+        ((domElement.nodeName == "INPUT") &amp;&amp;
+         (domElement.getAttribute("type") == "text"))) {
+      return TextAreaCursor;
     }
-    
-    else if (arguments.length == 1) {
-      if ((DomElement.nodeName == "TEXTAREA") ||
-          ((DomElement.nodeName == "INPUT") &amp;&amp; 
-           (DomElement.getAttribute ("type") == "text"))) {
-        return new TextAreaCursor (DomElement);
-      }
-      else if (DomElement.isContentEditable) {
-        return new ContentEditableCursor (DomElement);
-      }
-      else {
-        // TODO: Raise an error.
-      }
+    else if (domElement.isContentEditable) {
+      return ContentEditableCursor;
     }
-    
-    else if (arguments.length == 2) {
-      if ((DomElement.nodeName == "TEXTAREA") ||
-          ((DomElement.nodeName == "INPUT") &amp;&amp; 
-           (DomElement.getAttribute ("type") == "text"))) {
-        return new TextAreaCursor (DomElement, position);
-      }
-      else if (document.activeElement.isContentEditable) {
-        return new ContentEditableCursor (DomElement, position);
-      }
-      else {
-        // TODO: Raise an error.
-      }
+    else {
+      throw new Error(`Can't create cursor for ${domElement}`);
     }
-    
-    return null;
-    // TODO: Raise an error.
   }
 
   /**
@@ -178,17 +160,16 @@ class Cursor {
    * @see Cursor#insertBefore
    */
   insert(text) {
-    return this.insertBefore (text);
+    return this.insertBefore(text);
   }
 
   /**
    * Inserts text at the position of the cursor, moves the cursor at the
-   * end of the inserted text.
+   * end of the inserted text. Any selection is deleted.
    *
    * @param {string} text The text to be inserted.
    *
    * @example
-   * 
    * //     +
    * // big | apple
    * //     +
@@ -200,23 +181,20 @@ class Cursor {
    * //      +-----+
    * // this |isn't| good
    * //      +-----+
-   * cursor.insertBefore('is')
-   * //        +
-   * // this is| good
-   * //        +
+   * cursor.insertBefore('was')
+   * //         +
+   * // this was| good
+   * //         +
    */
   insertBefore(text) {}
 
   /**
    * Inserts text at the position of the cursor, keeps the cursor at the
-   * start of the inserted text. 
+   * start of the inserted text. Any selection is deleted.
    *
-   * @method
-   * 
    * @param {string} text The text to be inserted.
    *
    * @example
-   * 
    * //     +
    * // big | apple
    * //     +
@@ -228,10 +206,10 @@ class Cursor {
    * //      +-----+
    * // this |isn't| good
    * //      +-----+
-   * cursor.insertAfter('is')
-   * //      +  
-   * // this |is good
-   * //      +  
+   * cursor.insertAfter('was')
+   * //      +
+   * // this |was good
+   * //      +
    */
   insertAfter(text) {}
 
@@ -253,13 +231,13 @@ class Cursor {
    * @see Cursor#moveBackward
    */
   move(offset) {
-    if (offset > 0) return this.moveForward (offset);
-    else return this.moveBackward (-offset);
+    if (offset > 0) return this.moveForward(offset);
+    else return this.moveBackward(-offset);
   }
 
   /**
    * Moves the cursor forward by the amount specified.
-   * 
+   *
    * @param {integer} offset The amount by which the cursor should
    * move forward.
    *
@@ -325,8 +303,8 @@ class Cursor {
    * @see Cursor#deleteBackward
    */
   delete(amount) {
-    if (amount > 0) return this.deleteForward (amount);
-    else return this.deleteBackward (-amount);
+    if (amount > 0) return this.deleteForward(amount);
+    else return this.deleteBackward(-amount);
   }
 
   /**
@@ -355,7 +333,7 @@ class Cursor {
 
   /**
    * Deletes the specified number of characters before the cursor.
-   * 
+   *
    * @param {integer} amount The number of characters to be deleted.
    *
    * @example
@@ -363,9 +341,9 @@ class Cursor {
    * // this is |awesome
    * //         +
    * cursor.deleteBackward(3)
-   * //         +                                      +
-   * // this is |awesome -> deleteBackward (3) -> this |awesome
-   * //         +                                      +
+   * //      +
+   * // this |awesome
+   * //      +
    *
    * //         +---+
    * // this is |awe|some
@@ -387,14 +365,13 @@ class Cursor {
    *                  the cursor after the (imaginary) moving is done.
    *
    * @example
-   * 
-   * //         +      
+   * //         +
    * // this is |awesome
-   * //         +     
+   * //         +
    * cursor.getText(-3, 3) === "is awe"
    * cursor.getText(-4, 0) === " is "
    * cursor.getText(2, 4) === "es"
-   * 
+   *
    * //         +---+
    * // this is |awe|some
    * //         +---+
@@ -413,77 +390,72 @@ class Cursor {
    *                  AT MAXIMUM of length len.
    *
    * @example
-   * //         +      
+   * //         +
    * // this is |awesome
-   * //         +     
+   * //         +
    * cursor.getTextBefore(4) === " is "
-   * 
+   *
    * //         +---+
    * // this is |awe|some
    * //         +---+
-   * cursor.getText(5) === "s is "
+   * cursor.getTextBefore(5) === "s is "
    */
   getTextBefore(len) {
-    var bigstr = this.getText (-len, 0);
-    var smallstr = this.getText (0, 0);
-    return bigstr.substring (0, bigstr.length - smallstr.length);
+    var bigstr = this.getText(-len, 0);
+    var smallstr = this.getText(0, 0);
+    return bigstr.substring(0, bigstr.length - smallstr.length);
   }
 
   /**
    * Get the text just after the cursor.
    * &lt;b>Note:&lt;/b> The cursor itself does not move.
-   * 
+   *
    * @param {integer} len Length of the string wanted.
    * @return {string} The string just after the cursor,
    *                  AT MAXIMUM of length len.
    *
    * @example
-   * //         +      
+   * //         +
    * // this is |awesome
-   * //         +     
-   * cursor.getTextBefore(3) === "awe"
-   * 
+   * //         +
+   * cursor.getTextAfter(3) === "awe"
+   *
    * //         +---+
    * // this is |awe|some
    * //         +---+
-   * cursor.getText(4) === "some"
+   * cursor.getTextAfter(4) === "some"
    */
   getTextAfter(len) {
-    var bigstr = this.getText (0, len);
-    var smallstr = this.getText (0, 0);
-    return bigstr.substring (smallstr.length, bigstr.length);
+    var bigstr = this.getText(0, len);
+    var smallstr = this.getText(0, 0);
+    return bigstr.substring(smallstr.length, bigstr.length);
   }
-}
-
-function countTextNodes (elem) {
-    var count = 0;
-    for (var i = 0; i &lt; elem.childNodes.length; i++) {
-        if (elem.childNodes[i].nodeType == Node.TEXT_NODE) count++;
-    }
-    return count;
 }
 
 class TextAreaCursor extends Cursor {
-  constructor(Textarea, position) {
+  constructor(textArea, position) {
     super();
-    if (arguments.length == 0) {
-      this.textarea = document.activeElement;
-    }
-    else if (arguments.length == 1) {
-      this.textarea = Textarea;
-      this.textarea.setSelectionRange (this.textarea.value.length,
-                                       this.textarea.value.length);
-    }
-    else if (arguments.length == 2) {
-      this.textarea = Textarea;
-      this.textarea.setSelectionRange (position,
-                                       position);
+    this.textarea = textArea;
+    if (arguments.length > 1) {
+      this.textarea.setSelectionRange(position, position);
     }
   }
 
+  static atTheEndOf(textArea) {
+    return new TextAreaCursor(textArea, textArea.value.length);
+  }
+
+  static inside(textArea, offset) {
+    return new TextAreaCursor(textArea, offset);
+  }
+
+  static current() {
+    return new TextAreaCursor(document.activeElement);
+  }
+
   insertBefore(text) {
-    this.textarea.setRangeText (text);
-    this.textarea.setSelectionRange (
+    this.textarea.setRangeText(text);
+    this.textarea.setSelectionRange(
       this.textarea.selectionStart + text.length,
       this.textarea.selectionStart + text.length
     );
@@ -491,128 +463,141 @@ class TextAreaCursor extends Cursor {
   }
 
   insertAfter(text) {
-    this.textarea.setRangeText (text);
-    this.textarea.setSelectionRange (this.textarea.selectionStart,
-                                     this.textarea.selectionStart);
+    this.textarea.setRangeText(text);
+    this.textarea.setSelectionRange(this.textarea.selectionStart,
+                                    this.textarea.selectionStart);
     return this;
   }
 
   moveForward(offset) {
-    this.textarea.setSelectionRange (this.textarea.selectionEnd + offset,
-                                     this.textarea.selectionEnd + offset);
+    this.textarea.setSelectionRange(this.textarea.selectionEnd + offset,
+                                    this.textarea.selectionEnd + offset);
     return this;
   }
 
   moveBackward(offset) {
-    this.textarea.setSelectionRange (this.textarea.selectionStart - offset,
-                                     this.textarea.selectionStart - offset);
+    this.textarea.setSelectionRange(this.textarea.selectionStart - offset,
+                                    this.textarea.selectionStart - offset);
     return this;
   }
 
   deleteForward(amount) {
-    this.textarea.setSelectionRange (this.textarea.selectionEnd,
-                                     this.textarea.selectionEnd + amount);
-    this.textarea.setRangeText ("");
+    this.textarea.setSelectionRange(this.textarea.selectionEnd,
+                                    this.textarea.selectionEnd + amount);
+    this.textarea.setRangeText("");
     return this;
   }
 
   deleteBackward(amount) {
-    this.textarea.setSelectionRange (this.textarea.selectionStart - amount,
-                                     this.textarea.selectionStart);
-    this.textarea.setRangeText ("");
+    this.textarea.setSelectionRange(this.textarea.selectionStart - amount,
+                                    this.textarea.selectionStart);
+    this.textarea.setRangeText("");
     return this;
   }
 
   getText(start, end) {
     var new_start = this.textarea.selectionStart + start;
     var new_end = this.textarea.selectionEnd + end;
-    return this.textarea.value.substring (new_start, new_end);
+    return this.textarea.value.substring(new_start, new_end);
   }
 }
 
 class ContentEditableCursor extends Cursor {
-  constructor(DomElement, position) {
+  constructor(selection) {
     super();
-    if (arguments.length == 0) {
-      this.selection = document.getSelection ();
+    this.selection = selection;
+  }
+
+  static atTheEndOf(domElement) {
+    domElement.focus();
+    var selection = document.getSelection();
+    selection.extend(
+      domElement,
+      domElement.children.length + countTextNodes(domElement)
+    );
+    selection.collapseToEnd();
+    return new ContentEditableCursor(selection);
+  }
+
+  static inside(domElement, offset) {
+    domElement.focus();
+    var selection = document.getSelection();
+    selection.extend(domElement, 0);
+    selection.collapseToStart();
+    for (var i = 0; i &lt; offset; i++) {
+      this.selection.modify('move', 'forward', 'character');
     }
-    else if (arguments.length == 1) {
-      DomElement.focus();
-      this.selection = document.getSelection ();
-      this.selection.extend (
-        DomElement,
-        DomElement.children.length + countTextNodes (DomElement)
-      );
-      this.selection.collapseToEnd ();
-    }
-    else if (arguments.length == 2) {
-      DomElement.focus();
-      this.selection = document.getSelection ();
-      this.selection.extend (DomElement, 0);
-      this.selection.collapseToStart ();
-      for (var i = 0; i &lt; position; i++) {
-        this.selection.modify ('move',
-                               'forward',
-                               'character');
-      }
-    }
+    return new ContentEditableCursor(selection);
+  }
+
+  static current() {
+    var selection = document.getSelection();
+    return new ContentEditableCursor(selection);
   }
 
   insertBefore(text) {
-    this.insertAfter (text);
-    this.move (unicodeLength (text));
+    this.insertAfter(text);
+    this.move(unicodeLength(text));
     return this;
   }
 
   insertAfter(text) {
-    var range = this.selection.getRangeAt (0);
-    range.deleteContents ();
-    range.insertNode (document.createTextNode (text));
-    this.selection.collapseToStart ();
+    var range = this.selection.getRangeAt(0);
+    range.deleteContents();
+    range.insertNode(document.createTextNode(text));
+    this.selection.collapseToStart();
     return this;
   }
 
   moveForward(offset) {
-    this.selection.collapseToEnd ();
+    this.selection.collapseToEnd();
     while (offset--) {
-      this.selection.modify ('move', 'forward', 'character');
+      this.selection.modify('move', 'forward', 'character');
     }
     return this;
   }
 
   moveBackward(offset) {
-    this.selection.collapseToStart ();
+    this.selection.collapseToStart();
     while (offset--) {
-      this.selection.modify ('move', 'backward', 'character');
+      this.selection.modify('move', 'backward', 'character');
     }
     return this;
   }
 
   deleteForward(amount) {
-    this.selection.collapseToEnd ();
+    this.selection.collapseToEnd();
     while (amount--) {
-      this.selection.modify ('extend', 'forward', 'character');
+      this.selection.modify('extend', 'forward', 'character');
     }
-    this.selection.getRangeAt (0).deleteContents ();
+    this.selection.getRangeAt(0).deleteContents();
     return this;
   }
 
   deleteBackward(amount) {
-    this.selection.collapseToStart ();
+    this.selection.collapseToStart();
     while (amount--) {
-      this.selection.modify ('extend', 'backward', 'character');
+      this.selection.modify('extend', 'backward', 'character');
     }
-    this.selection.getRangeAt (0).deleteContents ();
+    this.selection.getRangeAt(0).deleteContents();
     return this;
   }
 
   getText(start, end) {
-    var range = this.selection.getRangeAt (0);
-    return this.selection.anchorNode.textContent.substring (
+    var range = this.selection.getRangeAt(0);
+    return this.selection.anchorNode.textContent.substring(
       range.startOffset + start,
       range.endOffset + end
     );
   }
+}
+
+function countTextNodes(elem) {
+  var count = 0;
+  for (var i = 0; i &lt; elem.childNodes.length; i++) {
+    if (elem.childNodes[i].nodeType == Node.TEXT_NODE) count++;
+  }
+  return count;
 }
 </code></pre>
         </article>
@@ -626,7 +611,7 @@ class ContentEditableCursor extends Cursor {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Fri Sep 01 2017 12:53:02 GMT+0530 (IST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Fri Sep 01 2017 20:23:40 GMT+0530 (IST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
