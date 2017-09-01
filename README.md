@@ -4,7 +4,7 @@ libcursor
 libcursor is a JavaScript library for manipulating cursor inside 
 textareas and contenteditable html elements.
 
-### Using libcursor
+### Using libcursor ([Full API docs](//sujeet.github.io/libcursor/Cursor.html))
 ##### Include the library:
 ```HTML
 <script 
@@ -15,7 +15,7 @@ textareas and contenteditable html elements.
 
 ##### Here is a sample piece of code:
 ```javascript
-/* *
+/**
  * Write "Hello world!" with cursor 
  * ending up just after the 'o' in 'Hello' 
  */
@@ -25,5 +25,3 @@ cursor.insert ("world!")
       .insert ("Hello")
       .insertAfter (" ");
 ```
-For API documentation, visit [github pages for libcursor]
-(http://sujeet.github.io/libcursor/symbols/Cursor.html "API documentation").
