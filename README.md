@@ -4,7 +4,7 @@ libcursor
 libcursor is a JavaScript library for manipulating cursor inside 
 textareas and contenteditable html elements.
 
-### Using libcursor ([Full API docs](//sujeet.github.io/libcursor/Cursor.html))
+### Using libcursor ([Full API docs](//sujeet.github.io/libcursor/docs/Cursor.html))
 ##### Include the library:
 ```HTML
 <script 
