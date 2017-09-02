@@ -37,7 +37,7 @@ if (!HTMLInputElement.prototype.setRangeText) {
   };
 }
 
-class Cursor {
+export class Cursor {
   /**
    * <i>Don't use this constructor.</i>
    * Use one of {@link Cursor.current}, {@link Cursor.atTheEndOf},
@@ -393,7 +393,7 @@ class Cursor {
   }
 }
 
-class TextAreaCursor extends Cursor {
+export class TextAreaCursor extends Cursor {
   constructor(textArea, position) {
     super();
     this.textarea = textArea;
@@ -463,13 +463,14 @@ class TextAreaCursor extends Cursor {
   }
 }
 
-class ContentEditableCursor extends Cursor {
+export class ContentEditableCursor extends Cursor {
   constructor(selection) {
     super();
     this.selection = selection;
   }
 
   static atTheEndOf(domElement) {
+    document.getSelection().removeAllRanges();
     domElement.focus();
     var selection = document.getSelection();
     selection.extend(
@@ -481,12 +482,13 @@ class ContentEditableCursor extends Cursor {
   }
 
   static inside(domElement, offset) {
+    document.getSelection().removeAllRanges();
     domElement.focus();
     var selection = document.getSelection();
     selection.extend(domElement, 0);
     selection.collapseToStart();
     for (var i = 0; i < offset; i++) {
-      this.selection.modify('move', 'forward', 'character');
+      selection.modify('move', 'forward', 'character');
     }
     return new ContentEditableCursor(selection);
   }

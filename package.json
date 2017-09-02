@@ -1,0 +1,30 @@
+{
+    "name": "libcursor",
+    "description": "A JavaScript library for manipulating cursor inside textareas and contenteditable html elements.",
+    "version": "0.0.1",
+    "author": "Sujeet Gholap <mail@sujeet.me>",
+    "dependencies": {},
+    "devDependencies": {
+        "babel-core": "6.26.0",
+        "babel-loader": "7.1.2",
+        "babel-polyfill": "6.26.0",
+        "babel-preset-es2015": "6.24.1",
+        "colors": "1.1.2",
+        "webpack": "3.5.5",
+        "istanbul-instrumenter-loader": "3.0.0",
+        "jasmine": "2.8.0",
+        "jasmine-core": "2.8.0",
+        "karma": "1.7.1",
+        "karma-cli": "1.0.1",
+        "karma-coverage": "1.1.1",
+        "karma-jasmine": "1.1.0",
+        "karma-phantomjs-launcher": "1.0.4",
+        "karma-webpack": "2.0.4",
+        "phantomjs-prebuilt": "2.1.15"
+    },
+    "license": "MIT",
+    "repository": "https://github.com/sujeet/libcursor",
+    "scripts": {
+        "test": "karma start karma.config.js --single-run"
+    }
+}
