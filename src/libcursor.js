@@ -442,18 +442,20 @@ export class TextAreaCursor extends Cursor {
     return this;
   }
 
-  deleteForward(amount) {
-    this.textarea.setSelectionRange(this.textarea.selectionEnd,
-                                    this.textarea.selectionEnd + amount);
+  deleteRange(start, end) {
+    this.textarea.setSelectionRange(start, end);
     this.textarea.setRangeText("");
     return this;
   }
 
+  deleteForward(amount) {
+    return this.deleteRange(this.textarea.selectionEnd,
+                            this.textarea.selectionEnd + amount);
+  }
+
   deleteBackward(amount) {
-    this.textarea.setSelectionRange(this.textarea.selectionStart - amount,
-                                    this.textarea.selectionStart);
-    this.textarea.setRangeText("");
-    return this;
+    return this.deleteRange(this.textarea.selectionStart - amount,
+                            this.textarea.selectionStart);
   }
 
   getText(start, end) {
@@ -512,38 +514,37 @@ export class ContentEditableCursor extends Cursor {
     return this;
   }
 
-  moveForward(offset) {
+  moveInDirection(direction, offset) {
     this.selection.collapseToEnd();
     while (offset--) {
-      this.selection.modify('move', 'forward', 'character');
+      this.selection.modify('move', direction, 'character');
     }
     return this;
   }
 
+  moveForward(offset) {
+    return this.moveInDirection('forward', offset);
+  }
+
   moveBackward(offset) {
-    this.selection.collapseToStart();
-    while (offset--) {
-      this.selection.modify('move', 'backward', 'character');
+    return this.moveInDirection('backward', offset);
+  }
+
+  deleteInDirection(direction, amount) {
+    this.selection.collapseToEnd();
+    while (amount--) {
+      this.selection.modify('extend', direction, 'character');
     }
+    this.selection.getRangeAt(0).deleteContents();
     return this;
   }
 
   deleteForward(amount) {
-    this.selection.collapseToEnd();
-    while (amount--) {
-      this.selection.modify('extend', 'forward', 'character');
-    }
-    this.selection.getRangeAt(0).deleteContents();
-    return this;
+    return this.deleteInDirection('forward', amount);
   }
 
   deleteBackward(amount) {
-    this.selection.collapseToStart();
-    while (amount--) {
-      this.selection.modify('extend', 'backward', 'character');
-    }
-    this.selection.getRangeAt(0).deleteContents();
-    return this;
+    return this.deleteInDirection('backward', amount);
   }
 
   getText(start, end) {
