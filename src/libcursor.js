@@ -5,7 +5,7 @@
 function unicodeLength(str) {
   var count = 0;
   for (var i=0; i < str.length; i++) {
-    if ((str.charCodeAt(i) & 0xF800) == 0xD800)
+    if ((str.charCodeAt(i) & 0xF800) === 0xD800)
       // Increase the count here because this is the start of of a
       // surrogate pair.
       i++;
@@ -103,9 +103,9 @@ export class Cursor {
   }
 
   static getConcreteSubclassFor(domElement) {
-    if ((domElement.nodeName == "TEXTAREA") ||
-        ((domElement.nodeName == "INPUT") &&
-         (domElement.getAttribute("type") == "text"))) {
+    if ((domElement.nodeName === "TEXTAREA") ||
+        ((domElement.nodeName === "INPUT") &&
+         (domElement.getAttribute("type") === "text"))) {
       return TextAreaCursor;
     }
     else if (domElement.isContentEditable) {
@@ -558,7 +558,7 @@ export class ContentEditableCursor extends Cursor {
 function countTextNodes(elem) {
   var count = 0;
   for (var i = 0; i < elem.childNodes.length; i++) {
-    if (elem.childNodes[i].nodeType == Node.TEXT_NODE) count++;
+    if (elem.childNodes[i].nodeType === Node.TEXT_NODE) count++;
   }
   return count;
 }
