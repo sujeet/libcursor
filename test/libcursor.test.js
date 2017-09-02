@@ -25,15 +25,31 @@ function getText(elem) {
   else return elem.value;
 }
 
+beforeEach(() => {
+  jasmine.addMatchers({
+    toBeA: () => {
+      return {
+        compare: (obj, expectedClass) => {
+          return {
+            pass: obj instanceof expectedClass,
+            message: `Expected ${obj} to be of type ${expectedClass.name}, `
+              + `but found ${obj.constructor.name} instead.`
+          };
+        }
+      };
+    }
+  });
+});
+
 describe('Cursor.current', () => {
   document.body.innerHTML = HTML;
 
   it('should get cursor from editable focused element', () => {
     textarea().focus();
-    expect(Cursor.current() instanceof TextAreaCursor).toBe(true);
+    expect(Cursor.current()).toBeA(TextAreaCursor);
 
     para().focus();
-    expect(Cursor.current() instanceof ContentEditableCursor).toBe(true);
+    expect(Cursor.current()).toBeA(ContentEditableCursor);
   });
 
   it('should throw error if focused element is not editable', () => {
@@ -47,8 +63,8 @@ describe('Cursor.inside and Cursor.atTheEndOf', () => {
 
   it('should disregard focused element', () => {
     function test(elem, cls) {
-      expect(Cursor.inside(elem, 0) instanceof cls).toBe(true);
-      expect(Cursor.atTheEndOf(elem) instanceof cls).toBe(true);
+      expect(Cursor.inside(elem, 0)).toBeA(cls);
+      expect(Cursor.atTheEndOf(elem)).toBeA(cls);
     }
 
     unfocus();
