@@ -1,6 +1,8 @@
 libcursor
 =========
-[![Build Status](https://img.shields.io/travis/sujeet/libcursor/gh-pages.svg)](https://travis-ci.org/sujeet/libcursor) [![Test Coverage](https://img.shields.io/codecov/c/github/sujeet/libcursor/gh-pages.svg)](https://codecov.io/gh/sujeet/libcursor)
+[![Build Status](https://img.shields.io/travis/sujeet/libcursor/gh-pages.svg)](https://travis-ci.org/sujeet/libcursor)
+[![Code Climate](https://img.shields.io/codeclimate/github/sujeet/libcursor.svg)](https://codeclimate.com/github/sujeet/libcursor)
+[![Test Coverage](https://img.shields.io/codecov/c/github/sujeet/libcursor/gh-pages.svg)](https://codecov.io/gh/sujeet/libcursor)
 
 libcursor is a JavaScript library for manipulating cursor inside 
 textareas and contenteditable html elements.
