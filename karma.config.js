@@ -12,6 +12,12 @@ module.exports = function(config) {
       'test/*.test.js': ['webpack'],
       'src/*.js': ['coverage']
     },
+    plugins: [
+      require('karma-coverage'),
+      require('karma-jasmine'),
+      require('karma-phantomjs-launcher'),
+      require('karma-webpack')
+    ],
     reporters: [
       'coverage',
       'progress'
