@@ -12,13 +12,18 @@ module.exports = function(config) {
       'test/*.test.js': ['webpack'],
       'src/*.js': ['coverage']
     },
-    reporters: ['coverage', 'progress'],
+    reporters: [
+      'coverage',
+      'progress'
+    ],
     coverageReporter: {
       reporters: [
         // generates ./coverage/lcov.info
-        {type:'lcovonly', subdir: '.'},
+        {type: 'lcovonly', subdir: '.'},
         // generates ./coverage/coverage-final.json
-        {type:'json', subdir: '.'},
+        {type: 'json', subdir: '.'},
+        // For a pretty coverage report in the terminal
+        {type: 'text'}
       ]
     },
     webpack: {
